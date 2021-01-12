@@ -1,5 +1,8 @@
 const app = require('express')()
 const http = require('http').createServer(app)
+var cors = require('cors')
+app.use(cors())
+
 
 
 app.get('/', (req, res) => {
@@ -9,7 +12,7 @@ app.get('/', (req, res) => {
 //Socket Logic
 const socketio = require('socket.io')(http)
 
-socketio.on("connect", (userSocket) => {
+socketio.on("connection", (userSocket) => {
     userSocket.on("send_message", (data) => {
         userSocket.broadcast.emit("receive_message", data)
     })
